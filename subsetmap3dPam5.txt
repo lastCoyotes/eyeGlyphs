@@ -42,12 +42,9 @@ Without trellis coding, we will hve to recover the data at a symbol-per-symbol b
 Trellis-Coding is to introduce a structure in the transmitter
 so that the basic units sent are sequences instead of individual symbols. Additionally, not any arbitrary sequence will be allowed, and the allowed sequences will be such that the Euclidean distance between them will be greater than 1, making it easier for the decover to distinguish different sequences (distance > 1) than to distinguish different individual symbols (distance = 1). This will minimixe the probability of error in the receiver. In Level-One's proposal the minimum squred distance between valid sequences is 4.
 
-4D ENCODING IN LEVEL-ONE'S PROPOSAL FOR 1000BASE-T by
-Jaime E. Kardontchik doesn't explain how sequences or trellises are generated, so this document will be supplemented with other material to generate those.
-
 4. Partitioning - STEP ONE
 
-The first step towards creating these alloable sequences is to divide the 2D constellation into TWO subsets by assigning alternate points to each subset, i.e. according to the pattern.
+The first step towards creating these allowable sequences is to divide the 2D constellation into TWO subsets by assigning alternate points to each subset, i.e. according to the pattern.
 
    A	    B	     A      B      A
 
@@ -64,24 +61,27 @@ Fig 2: subset partitioning of the PAM5x5 constellation
 3 important points to notice:
 
 	a) the points in each subset lie again on a square
-	   grid (rotated 45 degrees with respect to the 	  	   original grid)
+	   grid (rotated 45 degrees with respect to the
+	   original grid)
 	b) the minimum squared distance between points within
-	   a subset ( = 2 ) is twice the minimum squared 	     	   distance between points in the original 	    	  	   constellation ( = 1 )
+	   a subset ( = 2 ) is twice the minimum squared
+	   distance between points in the original constellation ( = 1 )
 	c) because of the first property, the partitioning can
 	   be repeated to yield smaller subsets with minimum
 	   squared distance between points of 4, 8, 16, etc
 
 We can redraw this pattern as follows using our XY scheme for PAM5 levels:
 
-   YY	    XY	YY      XY      YY
+   YY   XY  YY  XY  YY
 
-   YX	    XX	YX      XX      YX
+   YX   XX  YX  XX  YX
 
-   YY	    XY	YY      XY      YY
+   YY   XY  YY  XY  YY
 
-   YX	    XX	YX      XX      YX
+   YX   XX  YX  XX  YX
 
-   YY	    XY	YY      XY      YY
+   YY   XY  YY  XY  YY
+
 
 As Fig2 but using the XY naming scheme to identify the different points of the constellation.
 
@@ -89,25 +89,25 @@ A point XY in Fig 3 means that Wire A sent type X level (either -1 or +1) and Wi
 
 Figures 4a and 4b show the two subsets of 'A' and 'B' type points separately:
 
-   YY	      	YY              YY
+   YY	      	YY        YY
 
    	    XX	        XX      
 
-   YY	      	YY              YY
+   YY	      	YY        YY
 
    	    XX	        XX      
 
-   YY	      	YY              YY
+   YY	      	YY        YY
 
 Fig 4a: subset of 'A' points
 
    	    XY	        XY      
 
-   YX	      	YX              YX
+   YX	      YX         YX
 
    	    XY	        XY      
 
-   YX	      	YX              YX
+   YX	      YX         YX
 
    	    XY	        XY      
 
@@ -123,15 +123,15 @@ Notice that the minimum squared distance between points in each subset is 2.
 
 We will further subdivide the EVEN and ODD partitions into two subsets each. Let us take the EVEN subset of 4a. The first step is to look at 4a at an angle of 45 degrees:
 
-   *	    * 	YY      *       *
+   *	  * 	YY      *       *
 
-   *	    YY	XX      YY      *
+   *	  YY	XX      YY      *
 
-   YY	    XX	YY      XX      YY
+   YY	  XX	YY      XX      YY
 
-   *	    YY	XX      YY      *
+   *	  YY	XX      YY      *
 
-   *	    * 	YY      *       *
+   *	  * 	YY      *       *
 
 Fig 5: EVEN subset from Fig 4a after 45 degrees rotation.
 
@@ -149,15 +149,15 @@ From Fig 5 we can see that we again have a swuare lattice, that can be subdivide
 
 Fig 6a: Subset A of the EVEN subset
 
-   *	    * 	        *       *
+   *	  * 	      *         *
 
    *	      	XX              *
 
-    	    XX	        XX      
+    	  XX	      XX
 
    *	      	XX              *
 
-   *	    * 	        *       *
+   *	  * 	      *         *
 
 Fig 6b: Subset B of the EVEN subset
 
@@ -178,11 +178,11 @@ the subsets to look more normally, as shown:
 The YY set.
 
    *	    * 	*       *       *
-	  (-1, 1)	      ( 1, 1)
+	     (-1, 1)	  ( 1, 1)
    *	    XX	        XX      *
 
    *					    *
-	  (-1,-1)	      ( 1,-1)
+	     (-1,-1)	  ( 1,-1)
    *	    XX	        XX      *
 
    *	    * 	*       *       *
@@ -313,16 +313,16 @@ both belong to type XYXX, the euclidean squared distance between these points is
 
 Table II: 4D SUBLATTICES
 sublattice #	content 		# of pts 	pruned to
-D0 			XXXX + YYYY 	97 		64
-D1 			XXXY + YYYX 	78 		64
-D2 			XXYY + YYXX 	72 		64
-D3 			XXYX + YYXY 	78 		64
-D4 			XYYX + YXXY 	72 		64
-D5 			XYYY + YXXX 	78 		64
-D6 			XYXY + YXYX 	72 		64
-D7 			XYXX + YXYY 	78 		64
-						------ 	-------
-total: 					625 		512
+D0 			XXXX + YYYY 	        97 		64
+D1 			XXXY + YYYX 	        78 		64
+D2 			XXYY + YYXX 	        72 		64
+D3 			XXYX + YYXY 	        78 		64
+D4 			XYYX + YXXY 	        72 		64
+D5 			XYYY + YXXX 	        78 		64
+D6 			XYXY + YXYX 	        72 		64
+D7 			XYXX + YXYY 	        78 		64
+						        ------ 	-------
+total: 					            625 	512
 
 The euclidean distance between these two points is 4
 In general, it is clear that if one point belongs to XXXY and the other to YYYX, the distance between the components of the points in any dimension must be equal or larger than 1, since the minimum distance between X and Y is 1.
@@ -346,7 +346,7 @@ The total number of points in each sublattice is shown in a separate column. The
 
 D3 = 2*2*3*2 + 3*3*2*3 = 78
 
-So lets apply these to 3 dimensional applications. The math still applies.
+So lets apply these to 3 dimensional applications. The math still stands.
 
 To define our 3D Types:
 
@@ -377,19 +377,87 @@ D3			YXY + XYX	30		(21*)
 					------ 	-------
 total: 				125 		83
 
-For the sake of the eye glyphs we cant simply prune the sublattices until we know which ones to prune from, but given that there are 83 code blocks (trigrams), I know there are 83 states used that exist within the subsets. One can easily guess it may look like something as the asterisk'd numbers, but this is just my hunch.
+For the sake of the eye glyphs we cant simply prune the sublattices until we know which ones to prune from,
+but given that there are 83 code blocks (trigrams), I know there are 83 states used that exist within the subsets.
+One can easily guess it may look like something as the asterisk's numbers, but this is just a hunch.
 
-Given that it was confirmed one of the trigrams doesnt appear in the 3rd place, I can further prune this entire subset to account where the third subset only has 2 options of even values instead of -2, 0, 2 to -2 , 0.
+Given that it was confirmed one of the trigrams doesnt appear in the 3rd place,
+I can further prune this entire subset to account where the third subset only has 2 options of even values
+instead of [-2, 0, 2] to [-2 , 0].
 
 7. Define ND Families:
 
-The eight 4d sublattices may be further grouped into 2 4D families. And the 4 3D sublattices may be further grouped into 2 3D sublattices.
+The eight 4d sublattices may be further grouped into 2 4D families, and
+the four  3D sublattices may be further grouped into 2 3D families.
 
 Table 3: 4D FAMILIES
-family	content
+family	    content
 EVEN		D0 + D2 + D4 + D6
-ODD		D1 + D3 + D5 + D7
+ODD		    D1 + D3 + D5 + D7
 
-The reason for naming these families 'EVEN' and 'ODD' is that any point in the EVEN family has an even number of X's and any poiny in the ODD family has an odd number of X. Or in other words the sum modulo-2 of the coordinates of any point belonging to the EVEN family is 0, and the sum modulo-2 of the coordinates of any point belonging to the ODD family is 1.
+The reason for naming these families 'EVEN' and 'ODD' is that
+any point in the EVEN family has an even number of X's and any point in the ODD family has an odd number of X.
+Or in other words the sum modulo-2 of the coordinates of any point belonging to the EVEN family is 0,
+and the sum modulo-2 of the coordinates of any point belonging to the ODD family is 1.
 
 With 3D families however, they will always appear EVEN. So we need another distinguishing factor to them.
+
+With 3D families however, they will always appear ODD. So we need another distinguishing factor to them.
+We can get SUB families within the ODD family however. Ignore the 3rd digit (remember, this actually cannot be Eye 4
+during trigram analysis, and less occurs as Eye 3) So by only accounting for the first two digits
+to distinguish our 3D families, we maintain an EVEN and ODD sublattice again, using the same rules as 4D families.
+The following table is to show the modulo-2 division is maintained by ignoring the third digit (substituted with "-")
+
+sublattice #	content
+D0			-XX + -YY
+D1			-YX + -XY
+D2			-XX + -YY
+D3			-XY + -YX
+
+Table 3b: 3D FAMILIES
+family	    contents
+EVEN		D0 + D2
+ODD		    D1 + D3
+
+8. Hierarchy of the partitioning
+
+We may now summarize the 4d and 3d partitioning.
+
+4D
+|  					|
+EVEN				ODD
+|	|	|	|		|	|	|	|
+D0	D2	D4	D6		D1	D3	D5	D7
+
+Lattice -> Family -> Sublattices
+
+At the top level, the MSD between points in the lattice is 1. The next level, it is 2, and the third level, the MSD between points in the same sublattice is 4.
+
+The parity bit in the Trellis Encoder selects the family (EVEN or ODD). Bits TE[1] and TE[0] select one out of the four sublattices within the chosen family. The other six bits TE[7:2] select a particular point within the chosen sublattice (mind you a sublattice contains 64 points in the 4D family) The transmitter sends this point to the four wires each period.
+
+In Kardontchik's VI paper, FIG 9, page 19, shows an implementation of the Trellis encoder from Level-One's proposal. It features 3 flip-flops, and the selected subset will depend on TE[1:0] and on the values stored in the flip-flops. Essentially it will depend on the state of the encoder. This creates an 8-state machine, where the next state will depend on the present state and on the value of TE[1:0]
+
+To implement a 3D-PAM5 encoding of this:
+
+3D
+|					|
+EVEN				ODD
+|	|				|	|
+D0	D2				D1	D3
+
+Lattice -> Family -> Sublattices
+
+To implement a 3D-PAM5 implementation of the Trellis encoder. We cant assume that we will be getting 8 bit data words.
+My hunch lies with the fact that there are 3 wires, we should expect 6 bits of data,
+we still maintain TE[1] and TE[0] being the parity bit. While bits TE[5:2] will be the selected point in the sublattices.
+
+* WIP * I need to double check if the information stored can be 6 bits.
+
+_ _ | _ _ _ _
+0 1 | 2 3 4 5
+
+Where 0 and 1 are parity bits.
+2-5 are the encoded data.
+
+Lake when you wake up you still need to design the trellis code diagram, maybe a model of the state machine with the
+flip flop bits, and double check your math on the possible bits encoded within the space.
