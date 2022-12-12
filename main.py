@@ -12,8 +12,14 @@ def listifyMessage(message: list[str]) -> list[int]:
     return result
 
 
-# takes RAW message
-def shiftEyeGlyph(message: list[str]) -> list[int]:
+# takes RAW message and shifts each value to a different state
+# origin :   0 |  1 |  2 |  3 |  4
+# state A:   0 |  1 |  2 | -1 | -2
+# state B:   0 |  2 |  1 | -2 | -1
+# 2shift :  -2 | -1 |  0 |  1 |  2
+# there are shifted polarity versions of each state but flipping the signs will be done post process
+# these will be: -A, -B, -2S in my comments. just a reverse of polarity (+/-)
+def shiftEyeGlyph(message: list[str], state: str) -> list[int]:
     # take message from google docs and shift it by two to follow PAM5 encoding
     # 0 becomes -2, 4 becomes 2
     result = []

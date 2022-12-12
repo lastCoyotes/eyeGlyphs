@@ -1,0 +1,395 @@
+Subset Mapping for 3D-PAM5
+
+1. One-Dimensional view and nomenclature:
+if we look at one transmitter (wire) we have basically 5 levels
+{-2, -1, 0, 1, 2}
+
+The minimum distance between levels is 1.
+
+We will now define X and Y subsets as follows:
+
+X = {-1, 1}
+Y = {-2, 0, 2}
+
+So when we talk for example, about an X symbol, we refer to either
+a -1 or a +1 level. Similarly, a Y symbol represent a -2, 0, 2 level.
+
+2. Two Dimensional View
+With Two Wires, each one sending PAM-5 levels, we obtain a two dimensional
+constellation, PAM5x5, consisting of 25 points.
+
+Key: (<Wire A>, <Wire B>)
+
+(-2,2) (-1,2) (0,2) (1,2) (2,2)
+   *	    *	    *     *     *
+
+   *	    *	    *     *     *
+
+   *	    *	    *     *     *
+
+   *	    *	    *     *     *
+				  (2,-2)
+   *	    *	    *     *     *
+
+Fig 1: two-dimensional PAM5x5 constellation
+
+Added parenthesis the levels represented by some points so the meaning is clear.
+
+3. Trellis Coding
+
+Without trellis coding, we will hve to recover the data at a symbol-per-symbol basis where the distance between symbols is 1. 
+
+Trellis-Coding is to introduce a structure in the transmitter
+so that the basic units sent are sequences instead of individual symbols. Additionally, not any arbitrary sequence will be allowed, and the allowed sequences will be such that the Euclidean distance between them will be greater than 1, making it easier for the decover to distinguish different sequences (distance > 1) than to distinguish different individual symbols (distance = 1). This will minimixe the probability of error in the receiver. In Level-One's proposal the minimum squred distance between valid sequences is 4.
+
+4D ENCODING IN LEVEL-ONE'S PROPOSAL FOR 1000BASE-T by
+Jaime E. Kardontchik doesn't explain how sequences or trellises are generated, so this document will be supplemented with other material to generate those.
+
+4. Partitioning - STEP ONE
+
+The first step towards creating these alloable sequences is to divide the 2D constellation into TWO subsets by assigning alternate points to each subset, i.e. according to the pattern.
+
+   A	    B	     A      B      A
+
+   B	    A	     B      A      B
+
+   A	    B	     A      B      A
+
+   B	    A	     B      A      B
+
+   A	    B	     A      B      A
+
+Fig 2: subset partitioning of the PAM5x5 constellation
+
+3 important points to notice:
+
+	a) the points in each subset lie again on a square
+	   grid (rotated 45 degrees with respect to the 	  	   original grid)
+	b) the minimum squared distance between points within
+	   a subset ( = 2 ) is twice the minimum squared 	     	   distance between points in the original 	    	  	   constellation ( = 1 )
+	c) because of the first property, the partitioning can
+	   be repeated to yield smaller subsets with minimum
+	   squared distance between points of 4, 8, 16, etc
+
+We can redraw this pattern as follows using our XY scheme for PAM5 levels:
+
+   YY	    XY	YY      XY      YY
+
+   YX	    XX	YX      XX      YX
+
+   YY	    XY	YY      XY      YY
+
+   YX	    XX	YX      XX      YX
+
+   YY	    XY	YY      XY      YY
+
+As Fig2 but using the XY naming scheme to identify the different points of the constellation.
+
+A point XY in Fig 3 means that Wire A sent type X level (either -1 or +1) and Wire B sent a type Y level (that could be -2, 0, or +2)
+
+Figures 4a and 4b show the two subsets of 'A' and 'B' type points separately:
+
+   YY	      	YY              YY
+
+   	    XX	        XX      
+
+   YY	      	YY              YY
+
+   	    XX	        XX      
+
+   YY	      	YY              YY
+
+Fig 4a: subset of 'A' points
+
+   	    XY	        XY      
+
+   YX	      	YX              YX
+
+   	    XY	        XY      
+
+   YX	      	YX              YX
+
+   	    XY	        XY      
+
+Fig 4b: subset of 'B' points
+
+The subset shown in 4a is the EVEN subset, and the subset in 4b is the ODD subset. The reason for this naming is that the sum of the level values of any point belonging to the EVEN subset is an even number, and the sum of the level values of any point belonging to the ODD subset is an odd number.
+
+Notice that the minimum squared distance between points in each subset is 2.
+
+5. Partitioning - STEP TWO
+
+5.a) Partitioning of the EVEN subset
+
+We will further subdivide the EVEN and ODD partitions into two subsets each. Let us take the EVEN subset of 4a. The first step is to look at 4a at an angle of 45 degrees:
+
+   *	    * 	YY      *       *
+
+   *	    YY	XX      YY      *
+
+   YY	    XX	YY      XX      YY
+
+   *	    YY	XX      YY      *
+
+   *	    * 	YY      *       *
+
+Fig 5: EVEN subset from Fig 4a after 45 degrees rotation.
+
+From Fig 5 we can see that we again have a swuare lattice, that can be subdivided into two subsets, "A" and "B" as we did before. The results will be in Fig 6a and 6b.
+
+   *	    * 	YY      *       *
+
+   *	    YY	        YY      *
+
+   YY	      	YY             YY
+
+   *	    YY	        YY      *
+
+   *	    * 	YY      *       *
+
+Fig 6a: Subset A of the EVEN subset
+
+   *	    * 	        *       *
+
+   *	      	XX              *
+
+    	    XX	        XX      
+
+   *	      	XX              *
+
+   *	    * 	        *       *
+
+Fig 6b: Subset B of the EVEN subset
+
+And now we can rotate Fig 6a and 6b back 45 degrees to get
+the subsets to look more normally, as shown:
+
+ (-2, 2)	    ( 0, 2)	 	  ( 2, 2)
+   YY	      	YY              YY
+
+
+ (-2, 0)	    ( 0, 0)	 	  ( 2, 0)
+   YY	      	YY              YY
+
+
+ (-2,-2)	    ( 0,-2)	 	  ( 2,-2)
+   YY	      	YY              YY
+
+The YY set.
+
+   *	    * 	*       *       *
+	  (-1, 1)	      ( 1, 1)
+   *	    XX	        XX      *
+
+   *					    *
+	  (-1,-1)	      ( 1,-1)
+   *	    XX	        XX      *
+
+   *	    * 	*       *       *
+
+The XX set.
+
+Notice that the minimum squared distance between points in these subsets is now 4.
+
+5.b) Partitioning of the ODD subset
+
+Let's now take the ODD subset of Fig 4b and rotate it by 45 degrees.
+
+
+*	XY	YX	*
+
+XY	YX	XY	YX
+
+YX	XY	YX	XY
+
+*	YX	XY	*
+
+Fig 7: ODD subset from 4b after rotated 45 degrees.
+
+From Fig 7, we can see that we have again a square lattice,
+that can be subdivided into two subsets, A and B, as we did before.
+
+*	*	YX	*
+
+*	YX	*	YX
+
+YX	*	YX	*
+
+*	YX	*	*
+
+Fig 7a: Subset A (the YX set) of the ODD subset
+
+*	XY	*	*
+
+XY	*	XY	*
+
+*	XY	*	XY
+
+*	*	XY	*
+
+Fig 7b: Subset B (the XY set) of the ODD subset
+
+Rotating them back 45 degrees:
+
+ (-1, 2)	    ( 1, 2)	 	 
+   XY	      	XY            
+
+
+ (-1, 0)	    ( 1, 0)	 	  
+   XY	      	XY             
+
+
+ (-1,-2)	    ( 1,-2)	 	  
+   XY	      	XY              
+
+
+The XY subset rotated back 45 degrees.
+
+
+
+ (-2, 1)	    ( 0, 1)	 	  ( 2, 1)
+   YX	      	YX              YX
+
+
+ (-2,-1)	    ( 0,-1)	 	  ( 2,-1)
+   YX	      	YX              YX
+
+The YX subset rotated back 45 degrees.
+
+The minimum squared distance between points in each subset is now 4.
+
+
+Now that we have finished the subdivision of the original PAM5x5 set into four subsets, this is all we need to continue building the 4D constellation. Notice that we could have continued subdividing the subsets to get furhter increases of the minimum squared distance (8, 16, etc) but for our purposes it isn't needed as it would increase the total number of states of the encoder and make more complex of a job for decoding.
+
+To summarize, our original PAM5x5 constellation was divided into an EVEN and an ODD subset whicih were further divded into two subsets each:
+
+	(YY), (XX), (XY), and (YX)
+
+The minimum squared distance between points in each of these
+four subsets is 4.
+
+6. MULTIDIMENSIONAL CONSTELLATIONS
+
+The 4d coding can be derived from the four 2D subsets for 4D-PAM5 encoding. But for the sake of the eye glyphs I need to diverge from the paper and implement a 3D lattice type.
+
+Table 1: 4D Types:
+type #	content
+
+1		YYYY
+2		YYXX
+3		YYYX
+4		YYXY
+
+5		XXYY
+6		XXXX
+7		XXYX
+8		XXXY
+
+9		YXYY
+10		YXXX
+11		YXYX
+12		YXXY
+
+13		XYYY
+14		XYXX
+15		XYYX
+16		XYXY
+
+For example with these 4D types, if at time t = k*T, where
+k is an integer and T is the baud period,
+
+Tx Wire A sends -1
+Tx Wire B sends  2
+Tx Wire C sends  1
+Tx Wire D sends  1
+
+The quartet (-1, 2, 1, 1) is of type XYXX, and we can look at these points as points in a 4-dimensional space. Within a give 'type' the minimum squared distance between points is still 4. For instance, the points:
+
+(-1, 2, 1, 1) and (-1, 0, 1, 1)
+
+both belong to type XYXX, the euclidean squared distance between these points is:
+
+[(-1) - (-1)]^2 + [2 - 0]^2 + [1 - 1]^2 + [1 - 1]^2 = 4
+
+Table II: 4D SUBLATTICES
+sublattice #	content 		# of pts 	pruned to
+D0 			XXXX + YYYY 	97 		64
+D1 			XXXY + YYYX 	78 		64
+D2 			XXYY + YYXX 	72 		64
+D3 			XXYX + YYXY 	78 		64
+D4 			XYYX + YXXY 	72 		64
+D5 			XYYY + YXXX 	78 		64
+D6 			XYXY + YXYX 	72 		64
+D7 			XYXX + YXYY 	78 		64
+						------ 	-------
+total: 					625 		512
+
+The euclidean distance between these two points is 4
+In general, it is clear that if one point belongs to XXXY and the other to YYYX, the distance between the components of the points in any dimension must be equal or larger than 1, since the minimum distance between X and Y is 1.
+
+Hence, the minimum squared distance between any pair of four dimensional points in a given sublattice must be equal or greater than 4.
+
+The same can be said for all the eight sublattices, notice that the sixteen "types" have been grouped in such a way that if the component of one point on one axis is X, then the component of the second point on the same axis (or dimension) is Y, and vice versa. For example the two types that belong to the D7 sublattice:
+
+D7: X Y X X
+    | | | |
+    Y X Y Y
+
+The minimum squared distance, MSD, between any two points belonging to sublattice D7, on belonging to type XYXX and the other to type YXYY is 4.
+
+min_squar_dist =  min[(X-Y)^2] + min[(Y-X)^2] +
+			min[(X-Y)^2] + min[(X-Y)^2] = 1+1+1+1 = 4
+
+The reason for this grouping of the sixteen types into pairs to form eight sublattices is to simplify the coding and decoding: we have created in this way a 4D 8-state encoder, instead of a 4D 16-state encoder.
+
+The total number of points in each sublattice is shown in a separate column. The way it is calculated is simple. For example, for sublattice D3 the total number of points is 78.
+
+D3 = 2*2*3*2 + 3*3*2*3 = 78
+
+So lets apply these to 3 dimensional applications. The math still applies.
+
+To define our 3D Types:
+
+Table 1b: 3D Types
+type #	content
+
+1		YYY
+2		YXX
+3		YYX
+4		YXY
+
+5		XYY
+6		XXX
+7		XYX
+8		XXY
+
+Similar encoding follow but with only a triplet of data over 3 wires.
+
+The 8 types may be grouped into 4, 3D "sublattices" as shown in table 2b:
+
+Table 2b: 3D Sublattices
+
+sublattice #	content	# of pts	pruned to
+D0			XXX + YYY	35		(21*)
+D1			YXX + XYY	30		(21*)
+D2			YYX + XXY	30		(21*)
+D3			YXY + XYX	30		(21*)
+					------ 	-------
+total: 				125 		83
+
+For the sake of the eye glyphs we cant simply prune the sublattices until we know which ones to prune from, but given that there are 83 code blocks (trigrams), I know there are 83 states used that exist within the subsets. One can easily guess it may look like something as the asterisk'd numbers, but this is just my hunch.
+
+Given that it was confirmed one of the trigrams doesnt appear in the 3rd place, I can further prune this entire subset to account where the third subset only has 2 options of even values instead of -2, 0, 2 to -2 , 0.
+
+7. Define ND Families:
+
+The eight 4d sublattices may be further grouped into 2 4D families. And the 4 3D sublattices may be further grouped into 2 3D sublattices.
+
+Table 3: 4D FAMILIES
+family	content
+EVEN		D0 + D2 + D4 + D6
+ODD		D1 + D3 + D5 + D7
+
+The reason for naming these families 'EVEN' and 'ODD' is that any point in the EVEN family has an even number of X's and any poiny in the ODD family has an odd number of X. Or in other words the sum modulo-2 of the coordinates of any point belonging to the EVEN family is 0, and the sum modulo-2 of the coordinates of any point belonging to the ODD family is 1.
+
+With 3D families however, they will always appear EVEN. So we need another distinguishing factor to them.
