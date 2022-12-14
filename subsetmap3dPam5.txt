@@ -97,25 +97,25 @@ Figures 4a and 4b show the two subsets of 'A' and 'B' type points separately:
 
    YY	      	YY        YY
 
-   	    XX	        XX      
+   	 XX	     XX      
 
    YY	      	YY        YY
 
-   	    XX	        XX      
+   	 XX	     XX      
 
    YY	      	YY        YY
 
 Fig 4a: subset of 'A' points
 
-   	    XY	        XY      
+   	 XY	    XY      
 
    YX	      YX         YX
 
-   	    XY	        XY      
+   	 XY	    XY      
 
    YX	      YX         YX
 
-   	    XY	        XY      
+   	 XY	    XY      
 
 Fig 4b: subset of 'B' points
 
@@ -188,15 +188,15 @@ the subsets to look more normally, as shown:
 
 The YY set.
 
-   *	    * 	*       *       *
-	     (-1, 1)	  ( 1, 1)
-   *	    XX	        XX      *
+   *	  * 	 *       *      *
+	(-1, 1)	  ( 1, 1)
+   *	  XX	        XX      *
 
-   *					    *
-	     (-1,-1)	  ( 1,-1)
-   *	    XX	        XX      *
+   *				*
+	(-1,-1)	  ( 1,-1)
+   *	  XX	        XX      *
 
-   *	    * 	*       *       *
+   *	  * 	 *       *      *
 
 The XX set.
 
@@ -258,11 +258,11 @@ The XY subset rotated back 45 degrees.
 
 
 
- (-2, 1)	    ( 0, 1)	 	  ( 2, 1)
+ (-2, 1)	( 0, 1)	 	( 2, 1)
    YX	      	YX              YX
 
 
- (-2,-1)	    ( 0,-1)	 	  ( 2,-1)
+ (-2,-1)	( 0,-1)	 	( 2,-1)
    YX	      	YX              YX
 
 The YX subset rotated back 45 degrees.
