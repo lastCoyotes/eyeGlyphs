@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import collections
+import CommPy
+#
+# class trigramNode:
+#     def __init__(self):
 
 
 # takes RAW message
@@ -13,59 +17,41 @@ def listifyMessage(message: list[str]) -> list[int]:
 
 
 # takes RAW message and shifts each value to a different state
-# origin :   0 |  1 |  2 |  3 |  4
-# state A:   0 |  1 |  2 | -1 | -2
-# state B:   0 |  2 |  1 | -2 | -1
-# 2shift :  -2 | -1 |  0 |  1 |  2
+# origin   :   0 |  1 |  2 |  3 |  4
+# state  A :   0 |  1 |  2 | -1 | -2
+# state  B :   0 |  2 |  1 | -2 | -1
+# 2shift 2S:  -2 | -1 |  0 |  1 |  2
 # there are shifted polarity versions of each state but flipping the signs will be done post process
-# these will be: -A, -B, -2S in my comments. just a reverse of polarity (+/-)
-def shiftEyeGlyph(message: list[str], state: str) -> list[int]:
-    # take message from google docs and shift it by two to follow PAM5 encoding
-    # 0 becomes -2, 4 becomes 2
+# these will be: NA, NB, N2S in my comments. just a reverse of polarity (+/-)
+def shift2S(message: list[str]) -> list[int]:
     result = []
     for i in range(len(message)):
         for c in message[i]:
             result.append((int(c) - 2))
-
     return result
 
 
-# 3 -> -1, 4 -> -2
-# takes listified message
-def eyeGlyphAlpha(message: list[str]) -> list[int]:
+def shiftA(message: list[str]) -> list[int]:
+    key = {"0": 0, "1": 1, "2": 2, "3": -1, "4": -2}
     result = []
     for i in range(len(message)):
         for c in message[i]:
-            if int(c) < 3:
-                result.append(int(c))
-            elif int(c) == 3:
-                result.append(-1)
-            else:
-                result.append(-2)
+            result.append(int(key[c]))
     return result
 
 
-# takes listified message
-def eyeGlyphBeta(message: list[str]) -> list[int]:
+def shiftB(message: list[str]) -> list[int]:
+    key = {"0": 0, "1": 2, "2": 1, "3": -2, "4": -1}
     result = []
     for i in range(len(message)):
         for c in message[i]:
-            if int(c) == 0:
-                result.append(0)
-            elif int(c) == 1:
-                result.append(2)
-            elif int(c) == 2:
-                result.append(1)
-            elif int(c) == 3:
-                result.append(-2)
-            else:
-                result.append(-1)
+            result.append(int(key[c]))
     return result
 
 
 def diffBTElements(data: list[int]) -> list[int]:
     result = []
-    # find the difference in 'voltage' between each Eye
+    # find the delta between each Eye
     for i in range(len(data) - 1):
         result.append(data[i + 1] - data[i])
     return result
@@ -112,7 +98,7 @@ def plotSignal(data: list[int], title: str) -> None:
     plt.show()
 
 
-def formatTrigram(data: list[str]) -> list[str]:
+def zigzagState(data: list[str]) -> list[list[str]]:
     result = []
     stretchedString = ""
     # all messages have Even number of lines.
@@ -127,12 +113,52 @@ def formatTrigram(data: list[str]) -> list[str]:
             stretchedString += listA.popleft()
         if listB:
             stretchedString += listB.popleft()
-        i += 2
 
-    trigram = ""
     for i in range(0, len(stretchedString) - 2, 3):
-        trigram = stretchedString[i] + stretchedString[i + 1] + stretchedString[i + 2]
+        trigram = [stretchedString[i], stretchedString[i + 1], stretchedString[i + 2]]
         result.append(trigram)
+
+    return result
+
+
+# takes message data and returns a list containing a list of each trigram.
+# permutation is in the form in the main noita document and agreed upon readable permutation of the trigrams
+# return list of lists
+def trigramState(data: list[str]) -> list[list[str]]:
+    result = []
+    for i in range(0, len(data) - 1, 2):
+        listA = collections.deque(data[i])
+        listB = collections.deque(data[i + 1])
+        temp = collections.deque()
+        flag = True
+        while listA and listB:
+            set = []
+            if flag:
+                set.append(listA.popleft())
+                set.append(listA.popleft())
+                set.append(listB.popleft())
+                result.append(set)
+                set = []
+                flag = False
+            if not flag and listA and listB:
+                temp.append(listB.popleft())
+                temp.append(listA.popleft())
+                set.append((listB.popleft()))
+                set.append(temp.popleft())
+                set.append(temp.popleft())
+                result.append(set)
+                flag = True
+    return result
+
+
+# because i cant put lists in sets ill need to have lists of strings for working with sets
+def stateToString(data: list[list[str]])-> list[str]:
+    result = []
+    for entry in data:
+        word = ""
+        for c in entry:
+            word += c
+        result.append(word)
 
     return result
 
@@ -148,7 +174,47 @@ def base5to10(data: list[str]) -> list[int]:
     return result
 
 
+def stateList(data) -> str:
+    result = ""
+
+    if isinstance(data, list) or isinstance(data, str):
+        for c in data:
+            if int(c) & 1 == 1:
+                result += "X"
+            else:
+                result += "Y"
+    else:
+        result = "Data entered not expected format."
+    return result
+
+def subsetIgnoreThird(data) -> str:
+    result = ""
+
+    if isinstance(data, list) or isinstance(data, str):
+        for c in range(len(data)):
+            if c > 0:
+                if int(data[c]) & 1 == 1:
+                    result += "X"
+                else:
+                    result += "Y"
+            else:
+                result += "-"
+    else:
+        result = "Data entered not expected format."
+    return result
+
 if __name__ == "__main__":
+    # wrt to message 0-8:
+    # 297 eyes
+    # 309 eyes
+    # 354 eyes
+    # 306 eyes
+    # 411 eyes
+    # 372 eyes
+    # 357 eyes
+    # 360 eyes
+    # 342 eyes
+
     # formatted this way in case i need to preserve the trigram nature of them for other decoding methods
     # east 1
     message0 = ["201013223304041130232114313033004024000",
@@ -257,22 +323,13 @@ if __name__ == "__main__":
     # for bulk processing each message
     messageList = [message0, message1, message2, message3, message4, message5, message6, message7, message8]
 
-    # count each message for number of eyes
-    result = []
+    states = []
     for message in messageList:
-        for line in message:
-            for c in line:
-                result.append(int(c))
-        print(len(result))
-        result.clear()
+        trigram = trigramState(message)
+        for tri in trigram:
+            states.append(stateList(tri))
 
-    #wrt to message # 0-8:
-    #297 eyes
-    #309 eyes
-    #354 eyes
-    #306 eyes
-    #411 eyes
-    #372 eyes
-    #357 eyes
-    #360 eyes
-    #342 eyes
+    stateCount = collections.Counter(states)
+    print(stateCount)
+
+

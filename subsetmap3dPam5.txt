@@ -398,8 +398,8 @@ Table 2b: 3D Sublattices
 
 sublattice #	content	# of pts	pruned to
 D0			XXX + YYY	35		(21*)
-D1			YXX + XYY	30		(21*)
-D2			YYX + XXY	30		(21*)
+D1			YYX + XXY	30		(21*)
+D2			YXX + XYY	30		(21*)
 D3			YXY + XYX	30		(21*)
 					------ 	-------
 total: 				125 		83
